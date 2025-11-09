@@ -2,32 +2,39 @@ package tn.esprit.tpfoyer.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import tn.esprit.tpfoyer.dto.ChambreDto;
 import tn.esprit.tpfoyer.entities.Chambre;
+import tn.esprit.tpfoyer.mapper.ChambreMapper;
 import tn.esprit.tpfoyer.repositories.ChambreRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class ChambreService implements IChambreService {
-    final ChambreRepository chambreRepository;
+public class ChambreService {
+    private final ChambreRepository chambreRepository;
+    private final ChambreMapper chambreMapper;
 
-    @Override
-    public Chambre addOrUpdateChambre(Chambre chambre) {
-        return chambreRepository.save(chambre);
+    public ChambreDto addOrUpdateChambre(ChambreDto chambreDto) {
+        Chambre chambre = chambreMapper.toEntity(chambreDto);
+        chambre = chambreRepository.save(chambre);
+        return chambreMapper.toDto(chambre);
     }
 
-    @Override
-    public List<Chambre> findAllChambres() {
-        return chambreRepository.findAll();
+    public List<ChambreDto> findAllChambres() {
+        return chambreRepository.findAll()
+                .stream()
+                .map(chambreMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    @Override
-    public Chambre findById(long idChambre) {
-        return chambreRepository.findById(idChambre).get();
+    public ChambreDto findById(long idChambre) {
+        return chambreRepository.findById(idChambre)
+                .map(chambreMapper::toDto)
+                .orElse(null);
     }
 
-    @Override
     public void deleteById(long idChambre) {
         chambreRepository.deleteById(idChambre);
     }

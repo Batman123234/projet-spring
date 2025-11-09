@@ -2,39 +2,39 @@ package tn.esprit.tpfoyer.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.tpfoyer.entities.Chambre;
-import tn.esprit.tpfoyer.services.IChambreService;
+import tn.esprit.tpfoyer.dto.ChambreDto;
+import tn.esprit.tpfoyer.services.ChambreService;
 
 import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/chambre")
+@RequestMapping("/chambreController")
 public class ChambreController {
-    final IChambreService chambreService;
+    private final ChambreService chambreService;
 
-    @PostMapping("/add")
-    public Chambre addChambre(@RequestBody Chambre chambre) {
-        return chambreService.addOrUpdateChambre(chambre);
+    @PostMapping("/addChambre")
+    public ChambreDto addChambre(@RequestBody ChambreDto chambreDto) {
+        return chambreService.addOrUpdateChambre(chambreDto);
     }
 
-    @PutMapping("/update")
-    public Chambre updateChambre(@RequestBody Chambre chambre) {
-        return chambreService.addOrUpdateChambre(chambre);
+    @PutMapping("/updateChambre")
+    public ChambreDto updateChambre(@RequestBody ChambreDto chambreDto) {
+        return chambreService.addOrUpdateChambre(chambreDto);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteChambre(@PathVariable long id) {
-        chambreService.deleteById(id);
+    @DeleteMapping("/deleteChambre")
+    public void deleteChambre(@RequestParam long idChambre) {
+        chambreService.deleteById(idChambre);
     }
 
-    @GetMapping("/all")
-    public List<Chambre> getAllChambres() {
+    @GetMapping("/findAllChambre")
+    public List<ChambreDto> findAllChambres() {
         return chambreService.findAllChambres();
     }
 
-    @GetMapping("/{id}")
-    public Chambre getChambreById(@PathVariable long id) {
-        return chambreService.findById(id);
+    @GetMapping("/findChambreById")
+    public ChambreDto findChambreById(@RequestParam Long idChambre) {
+        return chambreService.findById(idChambre);
     }
 }

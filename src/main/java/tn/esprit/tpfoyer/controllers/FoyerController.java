@@ -2,7 +2,7 @@ package tn.esprit.tpfoyer.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.tpfoyer.entities.Foyer;
+import tn.esprit.tpfoyer.dto.FoyerDto;
 import tn.esprit.tpfoyer.services.FoyerService;
 
 import java.util.List;
@@ -11,31 +11,29 @@ import java.util.List;
 @RestController
 @RequestMapping("/foyerController")
 public class FoyerController {
-    final FoyerService foyerService;
+    private final FoyerService foyerService;
 
     @PostMapping("/addFoyer")
-    Foyer addFoyer(@RequestBody Foyer foyer) {
-        return foyerService.addOrUpdateFoyer(foyer);
+    public FoyerDto addFoyer(@RequestBody FoyerDto foyerDto) {
+        return foyerService.addOrUpdateFoyer(foyerDto);
     }
 
     @PutMapping("/updateFoyer")
-    Foyer updateFoyer(@RequestBody Foyer foyer) {
-        return foyerService.addOrUpdateFoyer(foyer);
+    public FoyerDto updateFoyer(@RequestBody FoyerDto foyerDto) {
+        return foyerService.addOrUpdateFoyer(foyerDto);
     }
 
     @DeleteMapping("/deleteFoyer")
-    void deleteFoyer(@RequestParam long idFoyer) {
+    public void deleteFoyer(@RequestParam long idFoyer) {
         foyerService.deleteById(idFoyer);
     }
 
-    @GetMapping("/findAllFoyer")
-    List<Foyer> findAllFoyer() {
+    public List<FoyerDto> findAllFoyer() {
         return foyerService.findAllFoyers();
     }
 
     @GetMapping("/findFoyerById")
-    Foyer findFoyerById(@RequestParam long idFoyer) {
+    public FoyerDto findFoyerById(@RequestParam Long idFoyer) {
         return foyerService.findById(idFoyer);
     }
 }
-
